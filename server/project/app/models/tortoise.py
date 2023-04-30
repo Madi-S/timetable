@@ -1,6 +1,10 @@
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
+'''
+One user -> many notes
+'''
+
 
 class TextSummary(models.Model):
     url = fields.TextField()

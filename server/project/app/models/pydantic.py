@@ -1,13 +1,18 @@
-from pydantic import BaseModel, AnyHttpUrl
+from pydantic import BaseModel
+
+import enums
 
 
-class SummaryPayloadSchema(BaseModel):
-    url: AnyHttpUrl
+class User(BaseModel):
+    id: str
 
 
-class SummaryResponseSchema(SummaryPayloadSchema):
-    id: int
+class Note(BaseModel):
+    title: str
+    user_id: str
+    datetime: str
+    description: str
+    color: enums.Color
 
-
-class SummaryUpdatePayloadSchema(SummaryPayloadSchema):
-    summary: str
+    class Config:
+        use_enum_values = True
