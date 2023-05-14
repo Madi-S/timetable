@@ -26,7 +26,8 @@ class Note(models.Model):
     modified_at = fields.DatetimeField(auto_now=True)
     color = fields.CharEnumField(enums.Color, max_length=100)
     description = fields.TextField(max_length=1000)
-    # TODO: define method to be parsed later
+    # TODO: define method to parse / validate datetime
+    # TODO: make normal pydantic
     datetime = fields.CharField(max_length=100)
 
     user: fields.ForeignKeyRelation[User] = fields.ForeignKeyField(
