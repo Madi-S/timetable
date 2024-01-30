@@ -1,4 +1,0 @@
-ENV
-.dockerignore
-Dockerfile
-Dockerfile.prod
