@@ -2,23 +2,7 @@
 
 ### Commands (mostly for Windows)
 
-Run application
-
-```
-uvicorn app.main:app --reload
-```
-
-Get into pyenv
-
-```
-env\Scripts\activate.bat
-```
-
-Set environmental variables
-
-```
-set TESTING=1
-```
+Application address: http://127.0.0.1:8004/docs
 
 Set up docker
 
