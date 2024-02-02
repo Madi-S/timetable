@@ -1,10 +1,15 @@
-# Timetable
+# Timetable [in development]
 
 Timetable application for web and mobile
 
-# Todo (Backend):
+## Server [fastapi]
 
-1. Setup tortoise ORM with user and entries tables
-2. Get rid of unnecessary stuff
-3. Setup the api for CRUD operations for user and entries (user has id and key only)
-4. Create tests for that
+...
+
+## Frontend [react?]
+
+...
+
+## Mobile [react-native?]
+
+...

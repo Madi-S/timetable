@@ -11,9 +11,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Update apt-get and install/upgrade system dependencies
-RUN apt-get update \
-    && apt-get -y install netcat gcc \
-    && apt-get clean
+RUN apt-get update
+RUN apt-get -y install netcat-traditional gcc
+RUN apt-get clean
 
 # Upgrade pip and install python dependencies
 RUN pip install --upgrade pip
