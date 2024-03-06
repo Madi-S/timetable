@@ -10,7 +10,7 @@ async def post(payload: UserPostPayloadSchema) -> int:
     # TODO: add token field to db user
     # token = generate_token()
     token = 'abcd'
-    user = User(**payload, token=token)
+    user = User(**payload.model_dump(exclude_unset=True), token=token)
     await user.save()
     return user.id
 
