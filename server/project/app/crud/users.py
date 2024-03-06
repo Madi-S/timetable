@@ -8,7 +8,9 @@ async def post(payload: UserPostPayloadSchema) -> int:
     """Returns created user id"""
     # TODO: check if user with such email or username already exists
     # TODO: add token field to db user
-    user = User(**payload)
+    # token = generate_token()
+    token = 'abcd'
+    user = User(**payload, token=token)
     await user.save()
     return user.id
 
@@ -27,9 +29,8 @@ async def get_all() -> list[dict] | list[Never]:
 
 async def delete(id: int) -> int | None:
     """Returns deleted user id"""
-    # TODO: check if user does not exist
     if user := await User.filter(id=id).first():
-        # return await user.delete()
+        await user.delete()
         return user.id
 
 

@@ -19,6 +19,7 @@ class User(TimestampMixin, AbstractBaseModel):
     username = fields.CharField(max_length=255, unique=True)
     email = fields.CharField(max_length=255)
     password_hash = fields.BinaryField()
+    token = fields.CharField(max_length=255, unique=True)
     notes: fields.ReverseRelation['Note']
 
     def __str__(self):
