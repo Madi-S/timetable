@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 from app.models.tortoise import User, Note
@@ -6,15 +6,23 @@ from app.models import enums
 
 
 # TODO: add camelCaseModel
+# TODO: add validators
 
 
-class UserInSchema(BaseModel):
-    email: str
+class UserPostPayloadSchema(BaseModel):
+    email: EmailStr
     password: str
     username: str
 
 
-class NoteInSchema(BaseModel):
+class UserPutPayloadSchema(BaseModel):
+    # TODO: test it and maybe use `Optional`
+    email: EmailStr | None = None
+    password: str | None = None
+    username: str | None = None
+
+
+class NotePostSchema(BaseModel):
     user_id: int
     title: str
     description: str | None = None
