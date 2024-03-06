@@ -8,6 +8,7 @@ async def post(payload: UserPostPayloadSchema) -> int:
     """Returns created user id"""
     # TODO: check if user with such email or username already exists
     # TODO: add token field to db user
+    # TODO: generate password hash
     # token = generate_token()
     token = 'abcd'
     user = User(**payload.model_dump(exclude_unset=True), token=token)
