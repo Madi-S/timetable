@@ -8,6 +8,8 @@ TODO: finish models [done]
 
 TODO: finish crud [almost done, need for notes only]
 
+TODO: add faker to fill out db rows and columns
+
 TODO: finish business api logic
 
 TODO: finish tests

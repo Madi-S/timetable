@@ -18,7 +18,6 @@ class UserPostIn(BaseModel):
 
 class UserPutIn(BaseModel):
     email: Optional[EmailStr]
-    password: Optional[str]
     username: Optional[str]
 
     # TODO: add validator that at least one field is not `None`

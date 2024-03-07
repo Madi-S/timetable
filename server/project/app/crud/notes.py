@@ -34,7 +34,6 @@ async def delete(id: int) -> int | None:
 
 async def put(id: int, payload: schemas.NotePutIn) -> schemas.NoteOut | None:
     """Returns updated note or `None` if not found"""
-    if note := await Note.filter(id=id):
-        await note.update(**payload)
-        updated_note = await Note.filter(id=id).first().values()
-        return updated_note
+    if await Note.filter(id=id).first():
+        await Note.filter(id=id).update(**payload.model_dump())
+        return await Note.filter(id=id).first().values()

@@ -43,7 +43,9 @@ async def delete(id: int) -> int | None:
 
 async def put(id: int, payload: schemas.UserPutIn) -> schemas.UserOut | None:
     """Returns updated user or `None` if not found"""
-    if user := await User.filter(id=id):
-        await user.update(**payload)
-        updated_user = await User.filter(id=id).first().values()
-        return updated_user
+    # TODO: make sure to check if user wants to update username or email
+    # which are already taken by another user
+    # catch `tortoise.exceptions.IntegrityError` exception in that case?
+    if await User.filter(id=id).first():
+        await User.filter(id=id).update(**payload.model_dump())
+        return await User.filter(id=id).first().values()

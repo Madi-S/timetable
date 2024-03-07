@@ -36,4 +36,12 @@ async def get_all_users():
 
 @router.put('/{id}', response_model=schemas.UserOut, status_code=status.HTTP_200_OK)
 async def update_user(payload: schemas.UserPutIn, id: int = Path(..., gt=0)):
-    pass
+    if user := await crud.put(id, payload):
+        return user
+    raise HTTPException(
+        status.HTTP_404_NOT_FOUND,
+        'User with such id is not found and hence cannot be updated'
+    )
+
+# TODO: add delete
+# @router.delete
