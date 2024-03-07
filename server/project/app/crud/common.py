@@ -1,4 +1,4 @@
-# create common base crud operations
+# TODO: create common base crud operations
 
 
 async def post(class_model, payload):

@@ -1,8 +1,7 @@
+import datetime
 from typing import Optional
 from pydantic import BaseModel, EmailStr
-from tortoise.contrib.pydantic import pydantic_model_creator
 
-from app.models.tortoise import User, Note
 from app.models import enums
 
 
@@ -32,29 +31,27 @@ class UserOut(BaseModel):
         orm_mode = True
 
 
-class NoteBaseModel(BaseModel):
+class NotePostIn(BaseModel):
     user_id: int
-
-
-class NotePostIn(NoteBaseModel):
     title: str
     description: Optional[str]
-    datetime_from: str
-    datetime_to: str
+    datetime_from: datetime.datetime
+    datetime_to: datetime.datetime
     color: enums.NoteColor
     category: enums.NoteCategory
 
 
-class NotePutIn(NoteBaseModel):
+class NotePutIn(BaseModel):
     title: Optional[str]
     description: Optional[str]
-    datetime_from: Optional[str]
-    datetime_to: Optional[str]
+    datetime_from: Optional[datetime.datetime]
+    datetime_to: Optional[datetime.datetime]
     color: Optional[enums.NoteColor]
     category: Optional[enums.NoteCategory]
 
 
 class NoteOut(NotePostIn):
+    created_at: datetime.datetime
 
     class Config:
         orm_mode = True
