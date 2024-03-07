@@ -18,7 +18,7 @@ class AbstractBaseModel(models.Model):
 class User(TimestampMixin, AbstractBaseModel):
     username = fields.CharField(max_length=255, unique=True)
     email = fields.CharField(max_length=255)
-    password_hash = fields.BinaryField()
+    password_hash = fields.CharField(max_length=31)
     token = fields.CharField(max_length=255, unique=True)
     notes: fields.ReverseRelation['Note']
 
