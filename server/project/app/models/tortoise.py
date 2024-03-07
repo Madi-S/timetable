@@ -1,24 +1,13 @@
-from tortoise import fields, models
+from tortoise import fields
 
 from app.models import enums
-
-
-class TimestampMixin():
-    modified_at = fields.DatetimeField(null=True, auto_now=True)
-    created_at = fields.DatetimeField(null=True, auto_now_add=True)
-
-
-class AbstractBaseModel(models.Model):
-    id = fields.IntField(pk=True)
-
-    class Meta:
-        abstract = True
+from app.models.mixins import AbstractBaseModel, TimestampMixin
 
 
 class User(TimestampMixin, AbstractBaseModel):
     username = fields.CharField(max_length=255, unique=True)
     email = fields.CharField(max_length=255)
-    password_hash = fields.CharField(max_length=31)
+    password_hash = fields.CharField(max_length=255)
     token = fields.CharField(max_length=255, unique=True)
     notes: fields.ReverseRelation['Note']
 

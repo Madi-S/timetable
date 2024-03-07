@@ -10,13 +10,13 @@ from app.models import enums
 # TODO: add validators
 
 
-class UserPostPayloadSchema(BaseModel):
-    email: EmailStr
-    password: str
+class UserPostIn(BaseModel):
     username: str
+    password: str
+    email: EmailStr
 
 
-class UserPutPayloadSchema(BaseModel):
+class UserPutIn(BaseModel):
     email: Optional[EmailStr]
     password: Optional[str]
     username: Optional[str]
@@ -24,11 +24,20 @@ class UserPutPayloadSchema(BaseModel):
     # TODO: add validator that at least one field is not `None`
 
 
+class UserOut(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+
+    class Config:
+        orm_mode = True
+
+
 class NoteBaseModel(BaseModel):
     user_id: int
 
 
-class NotePostPayloadSchema(NoteBaseModel):
+class NotePostIn(NoteBaseModel):
     title: str
     description: Optional[str]
     datetime_from: str
@@ -37,7 +46,7 @@ class NotePostPayloadSchema(NoteBaseModel):
     category: enums.NoteCategory
 
 
-class NotePutPayloadSchema(NoteBaseModel):
+class NotePutIn(NoteBaseModel):
     title: Optional[str]
     description: Optional[str]
     datetime_from: Optional[str]
@@ -46,5 +55,7 @@ class NotePutPayloadSchema(NoteBaseModel):
     category: Optional[enums.NoteCategory]
 
 
-UserOutSchema = pydantic_model_creator(User, exclude=('password_hash'))
-NoteOutSchema = pydantic_model_creator(Note, exclude=('edited_at'))
+class NoteOut(NotePostIn):
+
+    class Config:
+        orm_mode = True

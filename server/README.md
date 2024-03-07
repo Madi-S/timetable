@@ -1,5 +1,21 @@
 # FastAPI-TDD-Docker
 
+### If shit happens
+
+Mark `generate_schemas=True`
+Then undo, once it did initialize schemas
+
+```python
+def init_db(app: FastAPI) -> None:
+    register_tortoise(
+        app,
+        db_url=os.environ.get('DATABASE_URL'),
+        modules={'models': ['app.models.tortoise']},
+        generate_schemas=False,
+        add_exception_handlers=True,
+    )
+```
+
 ### Commands (mostly for Windows)
 
 Application address: http://127.0.0.1:8004/docs
@@ -11,12 +27,6 @@ docker-compose up -d --build
 ```
 
 Connect to postgres
-
-```
-docker-compose exec web-db psql -U postgres
-```
-
-Enter postgres database
 
 ```
 docker-compose exec web-db psql -U postgres
@@ -88,40 +98,3 @@ docker-compose exec web flake8 .
 docker-compose exec web black . --check
 docker-compose exec web isort . --check-only
 ```
-
-<hr>
-
-### Overview
-
-An example of dockerized fastapi application developed using test-driven technology
-This application will follow RESTful design principles, comprise docker configuration, use Tortoise ORM interacting with Postgres
-Pytest will be used fod test-driven development
-Application will be configured for deployment on Heroku
-
-<hr>
-
-### The application routes:
-
-| Endpoint       | Method | CRUD Operation | Result                          |
-| -------------- | ------ | -------------- | ------------------------------- |
-| /summaries     | GET    | READ           | Retrieve all summaries          |
-| /summaries/:id | GET    | READ           | Retrieve a single summary by id |
-| /summaries     | POST   | CREATE         | Create a summary                |
-| /summaries/:id | PUT    | UPDATE         | Update a summary by id          |
-| /summaries:id  | DELETE | DELETE         | Delete a summary by id          |
-
-<hr>
-
-### Useful links
-
-[FastAPI](https://fastapi.tiangolo.com)
-
-[Pytest](https://docs.pytest.org/en/7.2.x)
-
-[Docker](https://www.docker.com)
-
-[Tortoise](https://tortoise.github.io)
-
-[Postgres](https://www.postgresql.org)
-
-[Heroku](https://devcenter.heroku.com)

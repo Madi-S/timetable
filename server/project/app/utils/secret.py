@@ -21,16 +21,16 @@ class Secret:
         return uuid.uuid4().hex[:22]
 
     @classmethod
-    async def generate_password_hash(cls, password: bytes) -> bytes:
-        """Generates bytes password hash from given bytes password"""
+    async def generate_password_hash(cls, password: str) -> bytes:
+        """Generates bytes password hash from given password"""
         salt = await aiobcrypt.gensalt()
-        hashed_password = await aiobcrypt.hashpw(password, salt)
+        hashed_password = await aiobcrypt.hashpw(password.encode(), salt)
         return hashed_password
 
     @classmethod
-    async def verify_password(cls, plain_password: bytes, hashed_password: bytes) -> bool:
+    async def verify_password(cls, plain_password: str, hashed_password: bytes) -> bool:
         """Validates whether or not plain password match with hash"""
-        return await aiobcrypt.checkpw(plain_password, hashed_password)
+        return await aiobcrypt.checkpw(plain_password.encode(), hashed_password)
 
 
 async def _test():
