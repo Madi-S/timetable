@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Path, HTTPException, status
 
-from app.models import schemas
-from app.crud import users as crud
+from app.users import crud
+from app.users import schemas
 
 
 router = APIRouter()
@@ -44,7 +44,8 @@ async def update_user(payload: schemas.UserPutIn, id: int = Path(..., gt=0)) -> 
         return user
     raise HTTPException(
         status.HTTP_404_NOT_FOUND,
-        'User with such id was not found and hence cannot be updated'
+        'User with such id was not found and hence cannot be updated or \
+        provided email or username are already taken by another user'.replace('        ', '')
     )
 
 

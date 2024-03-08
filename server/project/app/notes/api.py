@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Path, HTTPException, status
 
-from app.models import schemas
-from app.crud import notes as crud
+from app.notes import crud
+from app.notes import schemas
 
 
 router = APIRouter()

@@ -1,6 +1,6 @@
 from typing import Never
 
-from app.models import schemas
+from app.users import schemas
 from app.utils.secret import Secret
 from app.models.tortoise import User
 
@@ -29,9 +29,14 @@ async def post(payload: schemas.UserPostIn) -> int | None:
 
 async def put(id: int, payload: schemas.UserPutIn) -> schemas.UserOut | None:
     """Returns updated user or `None` if not found"""
-    # TODO: make sure to check if user wants to update username or email
-    # which are already taken by another user
-    # catch `tortoise.exceptions.IntegrityError` exception in that case?
+    async def user_with_such_email_or_username_already_exists():
+        other_user1 = await User.exclude(id=id).filter(email=payload.email).first()
+        other_user2 = await User.exclude(id=id).filter(username=payload.username).first()
+        return other_user1 or other_user2
+
+    if await user_with_such_email_or_username_already_exists():
+        return
+
     if await User.filter(id=id).first().update(**payload.model_dump()):
         return await User.filter(id=id).first().values()
 

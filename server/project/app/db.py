@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from tortoise import Tortoise, run_async
 from tortoise.contrib.fastapi import register_tortoise
 
+
 log = logging.getLogger('uvicorn')
 
 
@@ -13,9 +14,9 @@ TORTOISE_ORM = {
     'apps': {
         'models': {
             'models': ['app.models.tortoise', 'aerich.models'],
-            'default_connection': 'default',
-        },
-    },
+            'default_connection': 'default'
+        }
+    }
 }
 
 
@@ -25,7 +26,7 @@ def init_db(app: FastAPI) -> None:
         db_url=os.environ.get('DATABASE_URL'),
         modules={'models': ['app.models.tortoise']},
         generate_schemas=True,
-        add_exception_handlers=True,
+        add_exception_handlers=True
     )
 
 

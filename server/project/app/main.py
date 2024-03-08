@@ -1,8 +1,10 @@
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
 from app.db import init_db
-from app.api import ping, users, notes
+from app.users.api import router as users_router
+from app.notes.api import router as notes_router
+from app.config import Settings, get_settings
 
 
 log = logging.getLogger('uvicorn')
@@ -10,18 +12,21 @@ log = logging.getLogger('uvicorn')
 
 def create_application() -> FastAPI:
     application = FastAPI()
-    application.include_router(ping.router, tags=['ping'])
-    application.include_router(
-        users.router, prefix='/users', tags=['users']
-    )
-    application.include_router(
-        notes.router, prefix='/notes', tags=['notes']
-    )
-
+    application.include_router(users_router, prefix='/users', tags=['users'])
+    application.include_router(notes_router, prefix='/notes', tags=['notes'])
     return application
 
 
 app = create_application()
+
+
+@app.get('/ping')
+async def pong(settings: Settings = Depends(get_settings)):
+    return {
+        'ping': 'pong',
+        'environment': settings.environment,
+        'testing': settings.testing,
+    }
 
 
 @app.on_event('startup')
