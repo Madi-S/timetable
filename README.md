@@ -10,7 +10,7 @@ TODO: finish crud [done]
 
 TODO: finish tests
 
-TODO: add faker to fill out db rows and columns
+TODO: add faker to fill out db rows and columns [done]
 
 TODO: finish business api logic
 
