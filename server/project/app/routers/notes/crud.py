@@ -1,6 +1,6 @@
 from typing import Never
 
-from app.notes import schemas
+from app.routers.notes import schemas
 from app.models.tortoise import User, Note
 
 
