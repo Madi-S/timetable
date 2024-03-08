@@ -22,9 +22,9 @@ async def get_all_for_user(user_id: int) -> list[schemas.NoteOut] | list[Never]:
 async def post(payload: schemas.NotePostIn) -> int | None:
     """Returns created note id or `None` if user_id not found"""
     if await User.filter(id=payload.user_id).first():
-        notes = Note(**payload.model_dump())
-        await notes.save()
-        return notes.id
+        note = Note(**payload.model_dump())
+        await note.save()
+        return note.id
 
 
 async def put(id: int, payload: schemas.NotePutIn) -> schemas.NoteOut | None:

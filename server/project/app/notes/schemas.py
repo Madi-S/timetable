@@ -14,6 +14,8 @@ class NotePostIn(BaseModel):
     color: enums.NoteColor
     category: enums.NoteCategory
 
+    # TODO: validator for datetimes: datetime_from < datetime_to
+
 
 class NotePutIn(BaseModel):
     title: Optional[str]
@@ -25,7 +27,8 @@ class NotePutIn(BaseModel):
 
 
 class NoteOut(NotePostIn):
+    id: int
     created_at: datetime.datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
