@@ -1,10 +1,8 @@
 import logging
 from fastapi import FastAPI
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.db import init_db
-
-from app.tasks import notifier
+from app.scheduler import scheduler, register_tasks
 from app.routers.misc.api import router as misc_router
 from app.routers.users.api import router as users_router
 from app.routers.notes.api import router as notes_router
@@ -28,15 +26,10 @@ def job_counter():
     log.info(f'It is regular interval job')
 
 
-scheduler = AsyncIOScheduler()
-
-
 @app.on_event('startup')
 async def startup_event():
     log.info('Starting up ...')
-    # scheduler.add_job(id='job1', func=job_counter, trigger='cron', second='*/2')
-    scheduler.add_job(id='notifer', func=notifier.notify_users_of_notes,
-                      trigger='minutes', seconds=15)
+    register_tasks()
     scheduler.start()
     init_db(app)
     log.info('Database intialized')
