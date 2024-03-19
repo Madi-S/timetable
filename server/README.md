@@ -44,6 +44,18 @@ Create a migration
 docker-compose exec web aerich init-db
 ```
 
+Update models and make migration
+
+```
+aerich migrate --name drop_column
+```
+
+Upgrade to latest version
+
+```
+aerich upgrade
+```
+
 Run tests
 
 ```

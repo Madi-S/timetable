@@ -12,22 +12,34 @@ log = logging.getLogger('uvicorn')
 
 
 def create_application() -> FastAPI:
-    application = FastAPI()
-    application.include_router(misc_router, prefix='/misc', tags=['misc'])
-    application.include_router(users_router, prefix='/users', tags=['users'])
-    application.include_router(notes_router, prefix='/notes', tags=['notes'])
+    application = FastAPI(
+        version='1.0',
+        title='Timetable Server'
+    )
+    application.add_event_handler('startup', app_on_startup)
+    application.add_event_handler('shutdown', app_on_shutdown)
+    application.include_router(
+        tags=['misc'],
+        prefix='/api/misc',
+        router=misc_router
+    )
+    application.include_router(
+        tags=['users'],
+        prefix='/api/users',
+        router=users_router
+    )
+    application.include_router(
+        tags=['notes'],
+        prefix='/api/notes',
+        router=notes_router
+    )
     return application
 
 
 app = create_application()
 
 
-def job_counter():
-    log.info(f'It is regular interval job')
-
-
-@app.on_event('startup')
-async def startup_event():
+async def app_on_startup():
     log.info('Starting up ...')
     register_tasks()
     scheduler.start()
@@ -35,7 +47,6 @@ async def startup_event():
     log.info('Database intialized')
 
 
-@app.on_event('shutdown')
-def shutdown_event():
+def app_on_shutdown():
     log.info('Shutting down ...')
     scheduler.shutdown(wait=False)
