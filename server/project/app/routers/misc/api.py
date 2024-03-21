@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
+from app.scheduler import scheduler
 from app.utils.filler import fill_models
-from server.project.app.settings import Settings, get_settings
-
+from app.settings import Settings, get_settings
 
 router = APIRouter()
 
@@ -18,4 +18,5 @@ async def pong(settings: Settings = Depends(get_settings)):
 
 @router.post('/filler')
 async def filler():
+    # TODO: Use celery here
     await fill_models()

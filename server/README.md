@@ -56,29 +56,10 @@ Upgrade to latest version
 aerich upgrade
 ```
 
-Run tests
-
-```
-docker-compose exec web python -m pytest
-```
-
-Run tests with monkeypatching
-
-```
-docker-compose exec web pytest -k "unit" -n auto
-```
-
 Initialize schemas
 
 ```
 docker-compose exec web python app/db.py
-```
-
-Run tests with coverage
-
-```
-docker-compose exec web python -m pytest --cov="."
-docker-compose exec web python -m pytest --cov="." --cov-report html
 ```
 
 Run flake8 for code quality

@@ -14,8 +14,6 @@ TODO: crontab for separate script [done]
 
 TODO: add non-rest routes to custom rpc router and maybe graphql
 
-TODO: finish tests
-
 TODO: embed AUTH
 
 TODO: business logic for creating crashing notes for the same user
