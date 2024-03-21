@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 
 from app.db import init_db
-from app.config import get_settings
+from app.config import get_config
 from app.scheduler import register_tasks, unregister_tasks
 from app.routers.misc.api import router as misc_router
 from app.routers.users.api import router as users_router
@@ -30,14 +30,14 @@ def create_application() -> FastAPI:
         title='Timetable Server'
     )
 
-    settings = get_settings()
-    if settings.SCOUT_USE:
-        from scout_apm.api import Config
+    config = get_config()
+    if config.SCOUT_USE:
+        from scout_apm.api import Config as ScoutConfig
         from scout_apm.async_.starlette import ScoutMiddleware
-        Config.set(
-            key=settings.SCOUT_KEY,
-            name=settings.SCOUT_NAME,
-            monitor=settings.SCOUT_MONITOR
+        ScoutConfig.set(
+            key=config.SCOUT_KEY,
+            name=config.SCOUT_NAME,
+            monitor=config.SCOUT_MONITOR
         )
         app.add_middleware(ScoutMiddleware)
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.utils.filler import fill_models
-from app.config import Settings, get_settings
+from server.project.app.settings import Settings, get_settings
 
 
 router = APIRouter()
