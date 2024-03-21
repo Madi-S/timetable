@@ -9,12 +9,19 @@ log = logging.getLogger('uvicorn')
 
 
 class Settings(BaseSettings):
-    environment: str = os.getenv('ENVIRONMENT', 'dev')      # dev/stage/prod
-    testing: bool = os.getenv('TESTING', 0)                 # testing mode
-    database_url: AnyUrl = os.environ.get('DATABASE_URL')   # db url
+    TESTING: bool = os.getenv('TESTING', 0)
+
+    ENVIRONMENT: str = os.getenv('ENVIRONMENT', 'dev')
+
+    DATABASE_URL: AnyUrl = os.environ.get('DATABASE_URL')
+
+    SCOUT_USE = os.getenv('SCOUT_USE', False)
+    SCOUT_KEY = os.getenv('SCOUT_KEY', '******')
+    SCOUT_NAME = os.getenv('SCOUT_NAME', 'Timetable Scout')
+    SCOUT_MONITOR = os.getenv('SCOUT_MONITOR', True)
 
 
 @lru_cache()
-def get_settings() -> BaseSettings:
+def get_settings() -> Settings:
     log.info('Loading config settings from the environment')
     return Settings()

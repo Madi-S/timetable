@@ -12,6 +12,8 @@ TODO: add faker to fill out db rows and columns [done]
 
 TODO: crontab for separate script [done]
 
+TODO: add non-rest routes to custom rpc router and maybe graphql
+
 TODO: finish tests
 
 TODO: embed AUTH
