@@ -4,9 +4,7 @@ from fastapi import FastAPI
 from app.db import init_db
 from app.config import get_config
 from app.scheduler import register_tasks, unregister_tasks
-from app.routers.misc.api import router as misc_router
-from app.routers.users.api import router as users_router
-from app.routers.notes.api import router as notes_router
+from app.rest import misc_router, users_router, notes_router
 
 
 log = logging.getLogger('uvicorn')
@@ -26,8 +24,11 @@ def create_application() -> FastAPI:
         log.info('Scheduler shutdown and tasks unregistered')
 
     application = FastAPI(
-        version='1.0',
-        title='Timetable Server'
+        version='0.1.0',
+        title='Timetable',
+        root_path='/api/v1',
+        openapi_url='/api/v1/openapi.json',
+        terms_of_service='http://example.com/terms/'
     )
 
     config = get_config()
@@ -45,17 +46,17 @@ def create_application() -> FastAPI:
     application.add_event_handler('shutdown', app_on_shutdown)
     application.include_router(
         tags=['misc'],
-        prefix='/api/misc',
+        prefix='/rest/misc',
         router=misc_router
     )
     application.include_router(
         tags=['users'],
-        prefix='/api/users',
+        prefix='/rest/users',
         router=users_router
     )
     application.include_router(
         tags=['notes'],
-        prefix='/api/notes',
+        prefix='/rest/notes',
         router=notes_router
     )
     return application
