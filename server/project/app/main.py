@@ -3,14 +3,14 @@ from fastapi import FastAPI
 
 from app.db import init_db
 from app.config import get_config
+from app.api import rest_router, graphql_route, rpc_app
 from app.scheduler import register_tasks, unregister_tasks
-from app.rest import misc_router, users_router, notes_router
 
 
 log = logging.getLogger('uvicorn')
 
 
-def create_application() -> FastAPI:
+def create_app() -> FastAPI:
     def app_on_startup():
         log.info('Starting up ...')
         register_tasks()
@@ -23,13 +23,32 @@ def create_application() -> FastAPI:
         unregister_tasks()
         log.info('Scheduler shutdown and tasks unregistered')
 
-    application = FastAPI(
+    app = FastAPI(
         version='0.1.0',
         title='Timetable',
         root_path='/api/v1',
-        openapi_url='/api/v1/openapi.json',
-        terms_of_service='http://example.com/terms/'
+        terms_of_service='http://example.com/terms',
+        description='''
+            This documentation presents endpoints description for REST
+            \nYou can also view other documentations here:
+            \n<a href="/api/v1/jsonrpc/docs"><b>JSON-RPC documentation</b></a>
+            \n<a href="/api/v1/graphql"><i>GraphQL</i></a>
+        '''.strip()
     )
+
+    # Event Handlers / Lifespan
+    app.add_event_handler('startup', app_on_startup)
+    app.add_event_handler('shutdown', app_on_shutdown)
+
+    # JSON-RPC
+    app.mount('/jsonrpc', rpc_app)
+
+    # REST
+    app.include_router(rest_router, prefix='/rest')
+
+    # GraphQL
+    app.add_route('/graphql', graphql_route)
+    app.add_websocket_route('/graphql', graphql_route)
 
     config = get_config()
     if config.SCOUT_USE:
@@ -42,24 +61,7 @@ def create_application() -> FastAPI:
         )
         app.add_middleware(ScoutMiddleware)
 
-    application.add_event_handler('startup', app_on_startup)
-    application.add_event_handler('shutdown', app_on_shutdown)
-    application.include_router(
-        tags=['misc'],
-        prefix='/rest/misc',
-        router=misc_router
-    )
-    application.include_router(
-        tags=['users'],
-        prefix='/rest/users',
-        router=users_router
-    )
-    application.include_router(
-        tags=['notes'],
-        prefix='/rest/notes',
-        router=notes_router
-    )
-    return application
+    return app
 
 
-app = create_application()
+app = create_app()

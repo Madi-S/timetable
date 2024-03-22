@@ -2,7 +2,7 @@ from typing import Never
 
 from app.utils.secret import Secret
 from app.models.tortoise import User
-from app.routers.users import schemas
+from app.api.rest.users import schemas
 
 
 async def get(id: int) -> schemas.UserOut | None:

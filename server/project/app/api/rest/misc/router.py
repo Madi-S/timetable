@@ -4,6 +4,7 @@ from app.scheduler import scheduler
 from app.utils.filler import fill_models
 from app.settings import Settings, get_settings
 
+
 router = APIRouter()
 
 
