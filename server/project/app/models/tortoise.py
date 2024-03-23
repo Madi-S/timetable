@@ -9,10 +9,11 @@ class User(TimestampMixin, AbstractBaseModel):
     email = fields.CharField(max_length=255)
     password_hash = fields.CharField(max_length=255)
     token = fields.CharField(max_length=255, unique=True)
+    is_active = fields.BooleanField(default=False)
     notes: fields.ReverseRelation['Note']
 
     def __str__(self):
-        return f'<User #{self.id}: username - {self.username}, email - {self.email}>'
+        return f'<User #{self.id}: username - {self.username}, active - {self.active} email - {self.email}>'
 
 
 class Note(TimestampMixin, AbstractBaseModel):
