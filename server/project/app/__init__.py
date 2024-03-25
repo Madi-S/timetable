@@ -44,7 +44,7 @@ def create_app() -> FastAPI:
     app.add_event_handler('shutdown', app_on_shutdown)
 
     # JSON-RPC
-    app.mount('/jsonrpc', rpc_app)
+    app.mount('/rpc', rpc_app)
 
     # REST
     app.include_router(rest_router, prefix='/rest')
