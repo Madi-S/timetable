@@ -16,9 +16,11 @@ TODO: add non-rest routes to custom rpc router and maybe graphql [done]
 
 TODO: refactor for rpc, graphql and rest [done]
 
-TODO: embed AUTH using own way with cookies or User.token as a dependency
-
 TODO: add celery and refactor scheduler based on celery
+
+TODO: refactor requirements.txt
+
+TODO: embed AUTH using own way with cookies or User.token as a dependency
 
 TODO: add email verification route for creating users (User.active = True, once email was verified)
 

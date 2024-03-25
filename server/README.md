@@ -1,6 +1,4 @@
-# FastAPI-TDD-Docker
-
-### If shit happens
+### If shit happens with database
 
 Mark `generate_schemas=True`
 Then undo, once it did initialize schemas
