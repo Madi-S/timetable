@@ -20,6 +20,14 @@ TORTOISE_ORM = {
 }
 
 
+async def connect_db() -> None:
+    await Tortoise.init(config=TORTOISE_ORM)
+
+
+async def disconnect_db() -> None:
+    await Tortoise.close_connections()
+
+
 def init_db(app: FastAPI) -> None:
     register_tortoise(app, config=TORTOISE_ORM)
 
@@ -31,6 +39,7 @@ async def generate_schema() -> None:
     await Tortoise.generate_schemas()
     await Tortoise.close_connections()
     log.info('Tortoise initialization done')
+
 
 if __name__ == '__main__':
     run_async(generate_schema())

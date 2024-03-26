@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
 from app.api.rest.misc import tasks
+from app.celery_utils import get_task_info
 from app.config import get_config as _get_config
-# from app.celery_utils import get_task_info
 
 
 router = APIRouter()
@@ -33,13 +33,12 @@ async def test_celery_task():
     return {'task_id': task.task_id}
 
 
-# @router.get('/celery/{task_id}')
-# async def get_celery_task_info(task_id: str):
-#     response = get_task_info(task_id)
-#     return JSONResponse(response)
+@router.get('/celery/{task_id}')
+async def get_celery_task_info(task_id: str):
+    return get_task_info(task_id)
 
 
-# @router.post('/celery/filler')
-# async def fill_database_models():
-#     task = tasks.fill_database_models.delay()
-#     return {'task_id': task.task_id}
+@router.post('/celery/filler')
+async def fill_database_models():
+    task = tasks.fill_database_models.delay()
+    return {'task_id': task.task_id}

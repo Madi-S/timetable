@@ -1,7 +1,7 @@
 import logging
 from fastapi import FastAPI
 
-from app.db import init_db
+from app.db import init_db, disconnect_db
 from app.config import config
 from app.celery_utils import create_celery
 from app.api import rest_router, graphql_route, rpc_app
@@ -12,17 +12,20 @@ log = logging.getLogger('uvicorn')
 
 
 def create_app() -> FastAPI:
-    def app_on_startup():
+    async def app_on_startup():
         log.info('Starting up ...')
         register_tasks()
         log.info('Scheduler intialized and tasks registered')
         init_db(app)
         log.info('Database intialized')
 
-    def app_on_shutdown():
+    async def app_on_shutdown():
         log.info('Shutting down ...')
         unregister_tasks()
         log.info('Scheduler shutdown and tasks unregistered')
+        await disconnect_db()
+
+        log.info('Database connection closed')
 
     app = FastAPI(
         version='0.1.0',
@@ -37,9 +40,11 @@ def create_app() -> FastAPI:
         '''.strip()
     )
 
+    # Celery
     app.celery_app = create_celery()
 
     # Event Handlers / Lifespan
+    # TODO: use lifespan
     app.add_event_handler('startup', app_on_startup)
     app.add_event_handler('shutdown', app_on_shutdown)
 
