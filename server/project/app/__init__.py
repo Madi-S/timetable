@@ -36,7 +36,7 @@ def create_app() -> FastAPI:
             \n<a href="/api/v1/graphql"><i>GraphQL</i></a>
         '''.strip()
     )
-    
+
     app.celery_app = create_celery()
 
     # Event Handlers / Lifespan

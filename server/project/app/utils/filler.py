@@ -10,7 +10,7 @@ from app.models.tortoise import User, Note
 fake = Faker()
 
 
-async def fill_models():
+async def fill_tortoise_models():
     user_ids = []
     for _ in range(50):
         password_hash = await Secret.generate_password_hash(
@@ -41,4 +41,4 @@ async def fill_models():
 
 
 if __name__ == '__main__':
-    asyncio.run(fill_models())
+    asyncio.run(fill_tortoise_models())
