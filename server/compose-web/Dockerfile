@@ -14,23 +14,23 @@ RUN pip install --upgrade pip
 COPY ./project/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./compose/entrypoint /entrypoint
+COPY ./compose-web/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY ./compose/web_start /web_start
+COPY ./compose-web/web_start /web_start
 RUN sed -i 's/\r$//g' /web_start
 RUN chmod +x /web_start
 
-COPY ./compose/worker_start /worker_start
+COPY ./compose-web/worker_start /worker_start
 RUN sed -i 's/\r$//g' /worker_start
 RUN chmod +x /worker_start
 
-COPY ./compose/beat_start /beat_start
+COPY ./compose-web/beat_start /beat_start
 RUN sed -i 's/\r$//g' /beat_start
 RUN chmod +x /beat_start
 
-COPY ./compose/flower_start /flower_start
+COPY ./compose-web/flower_start /flower_start
 RUN sed -i 's/\r$//g' /flower_start
 RUN chmod +x /flower_start
 

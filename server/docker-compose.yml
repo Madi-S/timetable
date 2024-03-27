@@ -4,7 +4,7 @@ services:
     web:
         build:
             context: .
-            dockerfile: ./compose/Dockerfile
+            dockerfile: ./compose-web/Dockerfile
         image: fastapi_app
         command: /web_start
         volumes:
@@ -20,7 +20,7 @@ services:
     web-db:
         build:
             context: .
-            dockerfile: ./db/Dockerfile
+            dockerfile: ./compose-db/Dockerfile
         expose:
             - 5432
         env_file:
@@ -32,7 +32,7 @@ services:
     celery_worker:
         build:
             context: .
-            dockerfile: ./compose/Dockerfile
+            dockerfile: ./compose-web/Dockerfile
         image: fastapi_celery_worker
         command: /worker_start
         volumes:
@@ -46,7 +46,7 @@ services:
     celery_beat:
         build:
             context: .
-            dockerfile: ./compose/Dockerfile
+            dockerfile: ./compose-web/Dockerfile
         image: fastapi_celery_beat
         command: /beat_start
         volumes:
@@ -60,7 +60,7 @@ services:
     flower:
         build:
             context: .
-            dockerfile: ./compose/Dockerfile
+            dockerfile: ./compose-web/Dockerfile
         image: fastapi_celery_flower
         command: /flower_start
         volumes:
