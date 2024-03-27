@@ -18,20 +18,20 @@ COPY ./compose/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY ./compose/start /start
-RUN sed -i 's/\r$//g' /start
-RUN chmod +x /start
+COPY ./compose/web_start /web_start
+RUN sed -i 's/\r$//g' /web_start
+RUN chmod +x /web_start
 
-COPY ./compose/worker/start /start-celeryworker
-RUN sed -i 's/\r$//g' /start-celeryworker
-RUN chmod +x /start-celeryworker
+COPY ./compose/worker_start /worker_start
+RUN sed -i 's/\r$//g' /worker_start
+RUN chmod +x /worker_start
 
-COPY ./compose/beat/start /start-celerybeat
-RUN sed -i 's/\r$//g' /start-celerybeat
-RUN chmod +x /start-celerybeat
+COPY ./compose/beat_start /beat_start
+RUN sed -i 's/\r$//g' /beat_start
+RUN chmod +x /beat_start
 
-COPY ./compose/flower/start /start-flower
-RUN sed -i 's/\r$//g' /start-flower
-RUN chmod +x /start-flower
+COPY ./compose/flower_start /flower_start
+RUN sed -i 's/\r$//g' /flower_start
+RUN chmod +x /flower_start
 
 ENTRYPOINT ["/entrypoint"]

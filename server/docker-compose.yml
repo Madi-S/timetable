@@ -5,7 +5,8 @@ services:
         build:
             context: .
             dockerfile: ./compose/Dockerfile
-        command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+        image: fastapi_app
+        command: /web_start
         volumes:
             - ./project:/usr/src/app
         ports:
@@ -14,11 +15,12 @@ services:
             - .env/.dev-sample
         depends_on:
             - web-db
+            - redis
 
     web-db:
         build:
-            context: ./project/db
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./db/Dockerfile
         expose:
             - 5432
         env_file:
@@ -31,8 +33,8 @@ services:
         build:
             context: .
             dockerfile: ./compose/Dockerfile
-        image: fastapi_celery_example_celery_worker
-        command: /start-celeryworker
+        image: fastapi_celery_worker
+        command: /worker_start
         volumes:
             - ./project:/usr/src/app
         env_file:
@@ -45,8 +47,8 @@ services:
         build:
             context: .
             dockerfile: ./compose/Dockerfile
-        image: fastapi_celery_example_celery_beat
-        command: /start-celerybeat
+        image: fastapi_celery_beat
+        command: /beat_start
         volumes:
             - ./project:/usr/src/app
         env_file:
@@ -54,12 +56,13 @@ services:
         depends_on:
             - redis
             - web-db
+
     flower:
         build:
             context: .
             dockerfile: ./compose/Dockerfile
-        image: fastapi_celery_example_celery_flower
-        command: /start-flower
+        image: fastapi_celery_flower
+        command: /flower_start
         volumes:
             - ./project:/usr/src/app
         env_file:

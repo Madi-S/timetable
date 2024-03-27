@@ -19,7 +19,6 @@ def create_app() -> FastAPI:
     async def app_on_shutdown():
         log.info('Shutting down ...')
         await disconnect_db()
-
         log.info('Database connection closed')
 
     app = FastAPI(
