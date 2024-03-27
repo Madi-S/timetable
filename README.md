@@ -16,7 +16,7 @@ TODO: refactor for rpc, graphql and rest [done]
 
 TODO: add celery and refactor scheduler based on celery [done]
 
-TODO: refactor docker-compose and bash files and refactor `__init__.py` files
+TODO: refactor docker-compose and bash files and refactor `__init__.py` files [done]
 
 TODO: refactor settigns and see some other settigns for
 
