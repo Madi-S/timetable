@@ -5,7 +5,6 @@ from app.db import init_db, disconnect_db
 from app.config import config
 from app.celery_utils import create_celery
 from app.api import rest_router, graphql_route, rpc_app
-from app.scheduler import register_tasks, unregister_tasks
 
 
 log = logging.getLogger('uvicorn')
@@ -14,15 +13,11 @@ log = logging.getLogger('uvicorn')
 def create_app() -> FastAPI:
     async def app_on_startup():
         log.info('Starting up ...')
-        register_tasks()
-        log.info('Scheduler intialized and tasks registered')
         init_db(app)
         log.info('Database intialized')
 
     async def app_on_shutdown():
         log.info('Shutting down ...')
-        unregister_tasks()
-        log.info('Scheduler shutdown and tasks unregistered')
         await disconnect_db()
 
         log.info('Database connection closed')

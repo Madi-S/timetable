@@ -20,7 +20,9 @@ TODO: refactor docker-compose and bash files and refactor `__init__.py` files
 
 TODO: refactor settigns and see some other settigns for
 
-TODO: refactor requirements.txt
+TODO: add draw.io model for what i want to implement
+
+TODO: configure celery-beat for periodic tasks
 
 TODO: embed AUTH using own way with cookies or User.token as a dependency
 
